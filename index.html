@@ -5,142 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Untuk Kamu ❤️</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
     body {
-      background: linear-gradient(135deg, #ffe6eb 0%, #ffc2d1 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow-x: hidden;
-      color: #590d22;
+      background: linear-gradient(135deg, #ffe6eb, #ffc2d1);
+      min-height: 100vh; display: flex; justify-content: center;
+      align-items: center; text-align: center; color: #590d22; padding: 20px;
     }
-    .screen {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 20px;
-      width: 100%;
-      max-width: 800px;
-      animation: fadeIn 0.8s ease;
+    .box { display: none; width: 100%; max-width: 600px; }
+    .box.aktif { display: block; }
+    .amplop {
+      width: 200px; height: 130px; background: #ff4d6d; margin: 0 auto 20px;
+      border-radius: 15px; display: flex; justify-content: center;
+      align-items: center; font-size: 50px; cursor: pointer;
+      box-shadow: 0 10px 25px rgba(255,77,109,0.4);
     }
-    .screen.active { display: flex; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
+    .kartu {
+      background: white; padding: 30px 20px; border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
-    .envelope-wrapper { cursor: pointer; transition: transform 0.3s ease; }
-    .envelope-wrapper:hover { transform: scale(1.05); }
-    .envelope {
-      width: 240px; height: 160px; background: #ff4d6d; border-radius: 12px;
-      position: relative; display: flex; justify-content: center; align-items: center;
-      box-shadow: 0 15px 30px rgba(255, 77, 109, 0.35); animation: pulse 1.8s infinite;
+    h2 { color: #a4133c; margin-bottom: 15px; }
+    .tombol-grup { margin-top: 25px; display: flex; justify-content: center; gap: 15px; }
+    button {
+      padding: 12px 24px; border: none; border-radius: 50px;
+      font-size: 16px; font-weight: bold; cursor: pointer;
     }
-    .envelope::before {
-      content: ''; position: absolute; top: 0;
-      border-left: 120px solid transparent; border-right: 120px solid transparent;
-      border-top: 90px solid #ff758f; border-radius: 12px 12px 0 0;
+    #ya { background: #ff4d6d; color: white; }
+    #gak { background: #ffe5ec; color: #800f2f; }
+    .galeri { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; }
+    .foto {
+      background: white; padding: 12px 12px 20px; border-radius: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
-    .heart-seal { font-size: 45px; z-index: 2; margin-top: 15px; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
-    .hint-text { margin-top: 20px; font-size: 1.1rem; font-weight: 600; color: #800f2f; }
-    .card-question {
-      background: rgba(255, 255, 255, 0.85); padding: 35px 25px; border-radius: 24px;
-      box-shadow: 0 12px 30px rgba(164, 19, 60, 0.15); max-width: 400px; width: 100%;
-    }
-    .card-question h2 { font-size: 1.6rem; margin-bottom: 12px; color: #a4133c; }
-    .card-question p { margin-bottom: 25px; color: #590d22; }
-    .btn-group { display: flex; justify-content: center; gap: 15px; position: relative; height: 50px; }
-    button { padding: 12px 24px; border: none; border-radius: 50px; font-size: 1rem; font-weight: bold; cursor: pointer; }
-    #btn-yes { background: #ff4d6d; color: white; box-shadow: 0 6px 15px rgba(255, 77, 109, 0.4); }
-    #btn-no { background: #f8edeb; color: #800f2f; border: 2px solid #ffb3c1; }
-    .gallery-header { margin-bottom: 30px; }
-    .gallery-header h1 { font-size: 2rem; color: #a4133c; margin-bottom: 8px; }
-    .polaroid-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; width: 100%; padding: 10px; }
-    .polaroid { background: white; padding: 14px 14px 25px 14px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12); transition: transform 0.3s ease; }
-    .polaroid:nth-child(odd) { transform: rotate(-2deg); }
-    .polaroid:nth-child(even) { transform: rotate(2deg); }
-    .polaroid:hover { transform: scale(1.06) rotate(0deg); z-index: 5; }
-    .polaroid img { width: 100%; height: 220px; object-fit: cover; border-radius: 4px; background: #ffe5ec; }
-    .polaroid p { margin-top: 14px; font-size: 1rem; font-weight: 600; color: #590d22; }
-    .falling-heart { position: fixed; top: -10%; font-size: 24px; pointer-events: none; animation: fall linear forwards; z-index: 999; }
-    @keyframes fall { to { transform: translateY(115vh) rotate(360deg); } }
+    .foto img { width: 100%; height: 250px; object-fit: cover; border-radius: 6px; background: #ffe5ec; }
+    .foto p { margin-top: 12px; font-weight: bold; }
   </style>
 </head>
 <body>
-  <div id="screen-1" class="screen active">
-    <div class="envelope-wrapper" onclick="bukaAmplop()">
-      <div class="envelope">
-        <div class="heart-seal">💌</div>
-      </div>
-    </div>
-    <p class="hint-text">Ada pesan rahasia buat kamu, ketuk amplopnya ya! ✨</p>
+
+  <div id="hal1" class="box aktif">
+    <div class="amplop" onclick="keHal2()">💌</div>
+    <h3>Ada pesan buat kamu, ketuk amplopnya! ✨</h3>
   </div>
 
-  <div id="screen-2" class="screen">
-    <div class="card-question">
+  <div id="hal2" class="box">
+    <div class="kartu">
       <h2>Sebelum buka fotonya... 🥺</h2>
-      <p>Jawab jujur ya, kamu sayang sama aku gak?</p>
-      <div class="btn-group">
-        <button id="btn-yes" onclick="bukaGaleri()">Sayang Banget! ❤️</button>
-        <button id="btn-no" onmouseover="lariTombol()" onclick="lariTombol()">Enggak 😜</button>
+      <p>Jawab jujur, kamu sayang aku gak?</p>
+      <div class="tombol-grup">
+        <button id="ya" onclick="keHal3()">Sayang Banget! ❤️</button>
+        <button id="gak" onmouseover="lari()" onclick="lari()">Enggak 😜</button>
       </div>
     </div>
   </div>
 
-  <div id="screen-3" class="screen">
-    <div class="gallery-header">
-      <h1>Yay! Aku Juga Sayang Kamu ❤️</h1>
-      <p>Ini beberapa momen favorit kita yang selalu bikin aku senyum.</p>
-    </div>
-    <div class="polaroid-grid">
-      <div class="polaroid">
+  <div id="hal3" class="box">
+    <h2>Yay! Aku Juga Sayang Kamu ❤️</h2>
+    <div class="galeri">
+      <div class="foto">
         <img src="foto1.jpg" alt="Foto 1">
-        <p>Pertama kali kita jalan bareng ✨</p>
+        <p>Momen favorit kita ✨</p>
       </div>
-      <div class="polaroid">
+      <div class="foto">
         <img src="foto2.jpg" alt="Foto 2">
-        <p>Senyum kamu di sini manis banget 🥰</p>
+        <p>Kamu manis banget di sini 🥰</p>
       </div>
-      <div class="polaroid">
+      <div class="foto">
         <img src="foto3.jpg" alt="Foto 3">
-        <p>Semoga kita terus bareng ya ❤️</p>
+        <p>Semoga terus bareng ya ❤️</p>
       </div>
     </div>
   </div>
 
   <script>
-    function bukaAmplop() {
-      document.getElementById('screen-1').classList.remove('active');
-      document.getElementById('screen-2').classList.add('active');
+    function keHal2() {
+      document.getElementById('hal1').classList.remove('aktif');
+      document.getElementById('hal2').classList.add('aktif');
     }
-    function lariTombol() {
-      const btnNo = document.getElementById('btn-no');
-      const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 40);
-      const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 40);
-      btnNo.style.position = 'fixed';
-      btnNo.style.left = Math.max(20, x) + 'px';
-      btnNo.style.top = Math.max(20, y) + 'px';
+    function lari() {
+      const btn = document.getElementById('gak');
+      btn.style.position = 'fixed';
+      btn.style.left = Math.random() * 70 + 'vw';
+      btn.style.top = Math.random() * 70 + 'vh';
     }
-    function bukaGaleri() {
-      document.getElementById('screen-2').classList.remove('active');
-      document.getElementById('screen-3').classList.add('active');
-      hujanHati();
-    }
-    function hujanHati() {
-      const icons = ['❤️', '💖', '💕', '🌸', '✨'];
-      for (let i = 0; i < 35; i++) {
-        setTimeout(() => {
-          const heart = document.createElement('div');
-          heart.classList.add('falling-heart');
-          heart.innerText = icons[Math.floor(Math.random() * icons.length)];
-          heart.style.left = Math.random() * 100 + 'vw';
-          heart.style.animationDuration = (Math.random() * 2 + 2.5) + 's';
-          document.body.appendChild(heart);
-          setTimeout(() => heart.remove(), 4500);
-        }, i * 120);
-      }
+    function keHal3() {
+      document.getElementById('hal2').classList.remove('aktif');
+      document.getElementById('hal3').classList.add('aktif');
     }
   </script>
 </body>
