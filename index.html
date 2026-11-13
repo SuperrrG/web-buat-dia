@@ -51,7 +51,7 @@
     .btn-nav { background: #ffe5ec; color: #800f2f; padding: 8px 16px; font-size: 14px; }
     .btn-ulang { margin-top: 18px; background: transparent; color: #800f2f; text-decoration: underline; font-size: 14px; }
     .love-terbang {
-      position: fixed; bottom: -70px; font-size: 46px; cursor: pointer; user-select: none; z-index: 20;
+      position: fixed; bottom: -70px; font-size: 46px; cursor: pointer; user-select: none; z-index: 1;
       padding: 10px; filter: drop-shadow(0 4px 8px rgba(255,77,109,0.35)); animation: naikTerbang linear forwards;
     }
     @keyframes naikTerbang {
@@ -203,7 +203,7 @@
       document.body.appendChild(love);
       setTimeout(() => love.remove(), durasi * 1000);
     }
-    setInterval(buatLoveTerbang, 1300);
+    setInterval(buatLoveTerbang, 400);
   </script>
 </body>
 </html>
