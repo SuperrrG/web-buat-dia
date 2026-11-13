@@ -172,9 +172,9 @@
     }
     let awalX = 0;
     const area = document.getElementById('areaGeser');
-    area.addEventListener('touchstart', e => awalX = e.touches.clientX);
+    area.addEventListener('touchstart', e => awalX = e.touches[0].clientX);
     area.addEventListener('touchend', e => {
-      let selisih = awalX - e.changedTouches.clientX;
+      let selisih = awalX - e.changedTouches[0].clientX;
       if (selisih > 40) gantiFotoManual(1);
       if (selisih < -40) gantiFotoManual(-1);
     });
