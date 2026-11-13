@@ -19,6 +19,24 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* Tombol Musik Interaktif */
+    #btnMusik {
+      display: none; position: fixed; top: 18px; right: 18px;
+      background: white; color: #a4133c; border: 2px solid #ff758f;
+      padding: 8px 16px; border-radius: 50px; font-size: 14px;
+      font-weight: bold; cursor: pointer; z-index: 100;
+      box-shadow: 0 5px 15px rgba(255,77,109,0.25);
+      transition: transform 0.2s;
+    }
+    #btnMusik.nyala {
+      background: #ff4d6d; color: white; border-color: #ff4d6d;
+      animation: denyutMusik 1.5s infinite;
+    }
+    @keyframes denyutMusik {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
     /* Amplop */
     .amplop {
       width: 200px; height: 130px; background: #ff4d6d; margin: 0 auto 20px;
@@ -65,7 +83,7 @@
     #ya { background: #ff4d6d; color: white; }
     #gak { background: #ffe5ec; color: #800f2f; }
 
-    /* Galeri Geser (Carousel) */
+    /* Galeri Geser */
     .slider-wrap {
       background: white; padding: 14px 14px 20px; border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.12); margin-top: 15px;
@@ -93,20 +111,20 @@
 </head>
 <body>
 
-  <!-- HALAMAN 1: AMPLOP -->
+  <audio id="audioLagu" src="musik.mp3" loop preload="auto"></audio>
+  <button id="btnMusik" onclick="aturMusik()">🎵 Musik: ON</button>
+
   <div id="hal1" class="box aktif">
     <div class="amplop" onclick="loadingKe('hal2')">💌</div>
     <h3>Ada sesuatu buat kamu nih, coba ketuk amplopnya ✨</h3>
   </div>
 
-  <!-- HALAMAN LOADING LUCU -->
   <div id="halLoading" class="box">
     <div class="loading-icon">🐰</div>
     <h3 style="margin-top: 10px;">Bentar ya, lagi nyiapin... ✨</h3>
     <div class="loading-bar"><div id="barFill" class="loading-fill"></div></div>
   </div>
 
-  <!-- HALAMAN 2: PERTANYAAN -->
   <div id="hal2" class="box">
     <div class="kartu">
       <h2>Sebentar, tes dulu... 👀</h2>
@@ -118,7 +136,6 @@
     </div>
   </div>
 
-  <!-- HALAMAN 3: GALERI BISA GESER / KLIK -->
   <div id="hal3" class="box">
     <h2>Ini beberapa fotonya 📸</h2>
     <p style="font-size: 13px; margin-top: 4px;">(Geser fotonya atau klik tombol di bawah)</p>
@@ -150,6 +167,8 @@
   <script>
     let indeksFoto = 0;
     const daftarSlide = document.querySelectorAll('.slide');
+    const audio = document.getElementById('audioLagu');
+    const btnMusik = document.getElementById('btnMusik');
 
     function sembunyiSemua() {
       document.querySelectorAll('.box').forEach(b => b.classList.remove('aktif'));
@@ -167,7 +186,30 @@
       setTimeout(() => {
         sembunyiSemua();
         document.getElementById(tujuan).classList.add('aktif');
+
+        if (tujuan === 'hal3') {
+          btnMusik.style.display = 'block';
+          audio.play().then(() => {
+            btnMusik.classList.add('nyala');
+            btnMusik.innerText = '🎵 Musik: ON';
+          }).catch(() => {
+            btnMusik.classList.remove('nyala');
+            btnMusik.innerText = '🔇 Musik: OFF';
+          });
+        }
       }, 1450);
+    }
+
+    function aturMusik() {
+      if (audio.paused) {
+        audio.play();
+        btnMusik.classList.add('nyala');
+        btnMusik.innerText = '🎵 Musik: ON';
+      } else {
+        audio.pause();
+        btnMusik.classList.remove('nyala');
+        btnMusik.innerText = '🔇 Musik: OFF';
+      }
     }
 
     function lari() {
@@ -185,13 +227,15 @@
     }
 
     function ulangAwal() {
+      audio.pause();
+      audio.currentTime = 0;
+      btnMusik.style.display = 'none';
       const btn = document.getElementById('gak');
       btn.style.position = 'static';
       sembunyiSemua();
       document.getElementById('hal1').classList.add('aktif');
     }
 
-    // Fitur Geser Layar (Swipe)
     let awalX = 0;
     const area = document.getElementById('areaGeser');
     area.addEventListener('touchstart', e => awalX = e.touches[0].clientX);
